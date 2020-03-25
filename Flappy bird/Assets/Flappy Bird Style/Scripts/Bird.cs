@@ -9,6 +9,9 @@ public class Bird : MonoBehaviour
 	private Animator anim;					//Reference to the Animator component.
 	private Rigidbody2D rb2d;				//Holds a reference to the Rigidbody2D component of the bird.
 
+	public GameObject birdSound;
+	public GameObject gameOver;
+	
 	void Start()
 	{
 		//Get reference to the Animator component attached to this GameObject.
@@ -25,6 +28,7 @@ public class Bird : MonoBehaviour
 			//Look for input to trigger a "flap".
 			if (Input.GetMouseButtonDown(0)) 
 			{
+				Instantiate(birdSound);
 				//...tell the animator about it and then...
 				anim.SetTrigger("Flap");
 				//...zero out the birds current y velocity before...
@@ -41,7 +45,12 @@ public class Bird : MonoBehaviour
 		// Zero out the bird's velocity
 		rb2d.velocity = Vector2.zero;
 		// If the bird collides with something set it to dead...
-		isDead = true;
+		
+		if(isDead == false)
+		{
+			Instantiate(gameOver);
+			isDead = true;
+		}
 		//...tell the Animator about it...
 		anim.SetTrigger ("Die");
 		//...and tell the game control about it.
